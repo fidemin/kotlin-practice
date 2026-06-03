@@ -2,6 +2,8 @@ package com.yunhongmin
 
 import com.yunhongmin.objects.Job
 import com.yunhongmin.objects.Person
+import com.yunhongmin.utils.joinToString
+import org.intellij.lang.annotations.Language
 import java.lang.IO.readln
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -17,6 +19,8 @@ fun main() {
         Person("Mike", 10, Job.NO_JOB),
         Person("Amy", 10, Job.STUDENT)
     )
+
+    println(persons.joinToString(separator = ", ", prefix = "Persons: ", postfix = " Done"))
 
     val studentMap = mutableMapOf<Int, Person>()
 
@@ -43,14 +47,20 @@ fun main() {
     } finally {
         println("finally done")
     }
-
-
 }
 
 fun max(a: Int, b: Int) = if (a > b) a else b
 
 fun printPersonInfo(person: Person): Unit {
-    println("${person.name}:")
-    println("${person.name} is old? ${person.isOld}. earn Money? ${person.job.earnMoney()}")
+    @Language("JSON")
+    val result = """
+        {
+            "name": ${person.name},
+            "isOld": ${person.isOld},
+            "job": ${person.job.name},
+            "earnMoney": ${person.job.earnMoney()}
+        }
+    """.trimIndent()
+    println(result)
     person.job.printJob()
 }
