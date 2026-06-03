@@ -1,5 +1,7 @@
 package com.yunhongmin
 
+import com.yunhongmin.objects.Person
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
@@ -7,18 +9,17 @@ fun main() {
     //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
     // to see how IntelliJ IDEA suggests fixing it.
     println("Hello, " + name + "!")
+    val persons = listOf(Person("David", 24), Person("Jane", 26))
 
-    var maxValue = 0
+    var maxAge = 0
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
-        maxValue = max(maxValue, i)
+    for (i in 0 until persons.size) {
+        val person = persons[i]
+        maxAge = max(maxAge, person.age)
+        println("${person.name} is old? ${person.isOld}")
     }
 
-    println("maxValue = $maxValue")
-    println("${maxValue}는 큰 수")
+    println("maxAge = $maxAge")
 }
 
 fun max(a: Int, b: Int): Int =  if (a > b) a else b
