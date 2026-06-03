@@ -1,9 +1,10 @@
 package com.yunhongmin
 
+import com.yunhongmin.objects.Button
 import com.yunhongmin.objects.Job
 import com.yunhongmin.objects.Person
+import com.yunhongmin.objects.printPersonInfo
 import com.yunhongmin.utils.joinToString
-import org.intellij.lang.annotations.Language
 import java.lang.IO.readln
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -19,6 +20,11 @@ fun main() {
         Person("Mike", 10, Job.NO_JOB),
         Person("Amy", 10, Job.STUDENT)
     )
+
+    val button = Button()
+    button.click()
+    button.setFocus()
+    button.showOff()
 
     println(persons.joinToString(separator = ", ", prefix = "Persons: ", postfix = " Done"))
 
@@ -47,20 +53,4 @@ fun main() {
     } finally {
         println("finally done")
     }
-}
-
-fun max(a: Int, b: Int) = if (a > b) a else b
-
-fun printPersonInfo(person: Person): Unit {
-    @Language("JSON")
-    val result = """
-        {
-            "name": ${person.name},
-            "isOld": ${person.isOld},
-            "job": ${person.job.name},
-            "earnMoney": ${person.job.earnMoney()}
-        }
-    """.trimIndent()
-    println(result)
-    person.job.printJob()
 }

@@ -9,7 +9,7 @@ enum class Job(
     DUNGEON("dungeon adventure", 10),
     STUDENT("student", 0);
 
-    fun printJob() = println("Job name is $jobName and salary is $salary")
+    fun toJobString(): String = "$jobName ($salary)"
     fun earnMoney() = when (this) {
         Job.NO_JOB, Job.STUDENT -> false
         else -> true
