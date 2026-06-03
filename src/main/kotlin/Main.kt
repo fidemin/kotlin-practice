@@ -2,6 +2,7 @@ package com.yunhongmin
 
 import com.yunhongmin.objects.Job
 import com.yunhongmin.objects.Person
+import java.lang.IO.readln
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -13,19 +14,43 @@ fun main() {
     val persons = listOf(
         Person("David", 24, Job.ENGINEER),
         Person("Jane", 26, Job.DUNGEON),
-        Person("Me", 10, Job.NO_JOB)
+        Person("Mike", 10, Job.NO_JOB),
+        Person("Amy", 10, Job.STUDENT)
     )
 
-    var maxAge = 0
+    val studentMap = mutableMapOf<Int, Person>()
 
-    for (i in 0 until persons.size) {
-        val person = persons[i]
-        maxAge = max(maxAge, person.age)
-        println("${person.name} is old? ${person.isOld}. earn Money? ${person.job.earnMoney()}")
-        person.job.printJob()
+    for ((idx, person) in persons.withIndex()) {
+        println("person with $idx is registered.")
+        if (person.job == Job.STUDENT) studentMap[idx] = person
     }
 
-    println("maxAge = $maxAge")
+    val idx = readln("Input idx: ").toInt()
+    try {
+        if (idx >= persons.size) {
+            throw IllegalArgumentException("$idx is larger than max person idx")
+        }
+        printPersonInfo(persons[idx])
+        if (idx in studentMap) {
+            println("This person is student")
+        }
+    } catch (e: Exception) {
+        when (e) {
+            is IllegalStateException -> println(e.toString())
+            is NumberFormatException -> println("integer only available")
+            else -> throw e
+        }
+    } finally {
+        println("finally done")
+    }
+
+
 }
 
 fun max(a: Int, b: Int) = if (a > b) a else b
+
+fun printPersonInfo(person: Person): Unit {
+    println("${person.name}:")
+    println("${person.name} is old? ${person.isOld}. earn Money? ${person.job.earnMoney()}")
+    person.job.printJob()
+}
