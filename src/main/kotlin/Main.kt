@@ -1,9 +1,6 @@
 package com.yunhongmin
 
-import com.yunhongmin.objects.Button
-import com.yunhongmin.objects.Job
-import com.yunhongmin.objects.Person
-import com.yunhongmin.objects.printPersonInfo
+import com.yunhongmin.objects.*
 import com.yunhongmin.utils.joinToString
 import java.lang.IO.readln
 
@@ -53,4 +50,7 @@ fun main() {
     } finally {
         println("finally done")
     }
+
+    interact(Fight(persons[0], persons[0]))
+    interact(Cure(persons[1], persons[2]))
 }
