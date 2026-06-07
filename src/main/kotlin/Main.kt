@@ -11,17 +11,19 @@ fun main() {
     //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
     // to see how IntelliJ IDEA suggests fixing it.
     println("Hello, " + name + "!")
-    val persons = listOf(
-        Person("David", 24, Job.ENGINEER),
-        Person("Jane", 26, Job.DUNGEON),
-        Person("Mike", 10, Job.NO_JOB),
-        Person("Amy", 10, Job.STUDENT)
-    )
+
+    Person("David", 24, Job.ENGINEER)
+    Person("Jane", 26, Job.DUNGEON)
+    Person("Mike", 10, Job.NO_JOB)
+    Person("Amy", 10, Job.STUDENT)
 
     val button = Button()
     button.click()
     button.setFocus()
     button.showOff()
+
+    val persons = PersonContainer.persons
+    persons.sortedWith(Person.NameComparator)
 
     println(persons.joinToString(separator = ", ", prefix = "Persons: ", postfix = " Done"))
 
@@ -53,4 +55,6 @@ fun main() {
 
     interact(Fight(persons[0], persons[0]))
     interact(Cure(persons[1], persons[2]))
+
+    Person.destroyWorld()
 }
