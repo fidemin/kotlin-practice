@@ -1,7 +1,6 @@
 package com.yunhongmin
 
 import com.yunhongmin.objects.*
-import com.yunhongmin.utils.joinToString
 import java.lang.IO.readln
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -12,12 +11,13 @@ fun main() {
     // to see how IntelliJ IDEA suggests fixing it.
     println("Hello, " + name + "!")
 
-    Person("David", 24, Job.ENGINEER).apply {
+    val david = Person("David", 24, Job.ENGINEER).apply {
         job = Job.STUDENT
     }
-    Person("Jane", 26, Job.DUNGEON)
-    Person("Mike", 10, Job.NO_JOB)
-    Person("Amy", 10, Job.STUDENT)
+    val jane = Person("Jane", 26, Job.DUNGEON)
+    val mike = Person("Mike", 10, Job.NO_JOB)
+    val amy = Person("Amy", 10, Job.STUDENT)
+    amy.addFriend(david)
 
     val button = Button()
     button.click()
@@ -26,25 +26,39 @@ fun main() {
 
     val people = PersonContainer.persons
     val sortedPeople = people.sortedWith(Person.NameComparator)
+    println("- people has friends: ${people.asSequence().flatMap { it.friends }.map { it.name }.toList()}")
 
-    println(sortedPeople.joinToString(separator = ", ", prefix = "Sorted People: ", postfix = " Done"))
+    val firstYoungPerson = people.asSequence().map { println("finding young person: $it}"); it.age }.find { it < 20 }
+    println("- first young person age: ${firstYoungPerson ?: "None"}")
+
+    println(
+        sortedPeople.joinToString(
+            separator = ", ",
+            prefix = "- Sorted People: ",
+            transform = { it.name })
+    )
     val maxAge = people.maxByOrNull { p -> p.age }
-    println("max age: $maxAge")
-
-    val studentMap = mutableMapOf<Int, Person>()
-
-    for ((idx, person) in people.withIndex()) {
-        println("person with $idx is registered.")
-        if (person.job == Job.STUDENT) studentMap[idx] = person
+    val totalAge = people.fold(0) { acc, person ->
+        acc + person.age
     }
 
-    val comment = "This is good"
+    println("- max age: $maxAge")
+    println("- total age: $totalAge")
 
-    people.forEach {
-        println(comment)
-    }
+    val (students, notStudents) = people.partition { it.job == Job.STUDENT }
 
-    postponeComputation(5, { println("Loading...") })
+    println(
+        students.joinToString(
+            separator = ", ",
+            prefix = "- Students: ",
+            transform = { it.name })
+    )
+    println(
+        notStudents.joinToString(
+            separator = ", ",
+            prefix = "- Not Students: ",
+            transform = { it.name })
+    )
 
     val idx = readln("Input idx: ").toInt()
     try {
@@ -52,9 +66,6 @@ fun main() {
             throw IllegalArgumentException("$idx is larger than max person idx")
         }
         printPersonInfo(people[idx])
-        if (idx in studentMap) {
-            println("This person is student")
-        }
     } catch (e: Exception) {
         when (e) {
             is IllegalStateException -> println(e.toString())
@@ -65,10 +76,12 @@ fun main() {
         println("finally done")
     }
 
+    postponeComputation(5, { println("Loading...") })
     interact(Fight(people[0], people[0]))
     interact(Cure(people[1], people[2]))
 
     Person.destroyWorld()
+
 }
 
 fun postponeComputation(delay: Int, computation: Runnable) {

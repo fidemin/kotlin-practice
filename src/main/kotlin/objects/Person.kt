@@ -8,6 +8,8 @@ object PersonContainer {
 }
 
 data class Person(val name: String, val age: Int, var job: Job = Job.NO_JOB) {
+    val friends = mutableSetOf<Person>()
+
     init {
         PersonContainer.add(this)
     }
@@ -25,6 +27,14 @@ data class Person(val name: String, val age: Int, var job: Job = Job.NO_JOB) {
 
     object NameComparator : Comparator<Person> {
         override fun compare(o1: Person, o2: Person) = o1.name.compareTo(o2.name)
+    }
+
+    fun addFriend(p: Person) {
+        if (friends.contains(p)) {
+            return
+        }
+        friends.add(p)
+        p.addFriend(this)
     }
 }
 
