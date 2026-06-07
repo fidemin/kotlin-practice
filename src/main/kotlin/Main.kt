@@ -12,7 +12,9 @@ fun main() {
     // to see how IntelliJ IDEA suggests fixing it.
     println("Hello, " + name + "!")
 
-    Person("David", 24, Job.ENGINEER)
+    Person("David", 24, Job.ENGINEER).apply {
+        job = Job.STUDENT
+    }
     Person("Jane", 26, Job.DUNGEON)
     Person("Mike", 10, Job.NO_JOB)
     Person("Amy", 10, Job.STUDENT)
@@ -22,24 +24,34 @@ fun main() {
     button.setFocus()
     button.showOff()
 
-    val persons = PersonContainer.persons
-    persons.sortedWith(Person.NameComparator)
+    val people = PersonContainer.persons
+    val sortedPeople = people.sortedWith(Person.NameComparator)
 
-    println(persons.joinToString(separator = ", ", prefix = "Persons: ", postfix = " Done"))
+    println(sortedPeople.joinToString(separator = ", ", prefix = "Sorted People: ", postfix = " Done"))
+    val maxAge = people.maxByOrNull { p -> p.age }
+    println("max age: $maxAge")
 
     val studentMap = mutableMapOf<Int, Person>()
 
-    for ((idx, person) in persons.withIndex()) {
+    for ((idx, person) in people.withIndex()) {
         println("person with $idx is registered.")
         if (person.job == Job.STUDENT) studentMap[idx] = person
     }
 
+    val comment = "This is good"
+
+    people.forEach {
+        println(comment)
+    }
+
+    postponeComputation(5, { println("Loading...") })
+
     val idx = readln("Input idx: ").toInt()
     try {
-        if (idx >= persons.size) {
+        if (idx >= people.size) {
             throw IllegalArgumentException("$idx is larger than max person idx")
         }
-        printPersonInfo(persons[idx])
+        printPersonInfo(people[idx])
         if (idx in studentMap) {
             println("This person is student")
         }
@@ -53,8 +65,15 @@ fun main() {
         println("finally done")
     }
 
-    interact(Fight(persons[0], persons[0]))
-    interact(Cure(persons[1], persons[2]))
+    interact(Fight(people[0], people[0]))
+    interact(Cure(people[1], people[2]))
 
     Person.destroyWorld()
+}
+
+fun postponeComputation(delay: Int, computation: Runnable) {
+    Thread {
+        Thread.sleep(delay * 1000L)
+        computation.run()
+    }.start() // 별도 스레드에서 실행 — 메인 스레드 안 막음
 }
