@@ -1,6 +1,7 @@
 package com.yunhongmin
 
 import com.yunhongmin.objects.*
+import com.yunhongmin.utils.fail
 import java.lang.IO.readln
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -14,8 +15,8 @@ fun main() {
     val david = Person("David", 24, Job.ENGINEER).apply {
         job = Job.STUDENT
     }
-    val jane = Person("Jane", 26, Job.DUNGEON)
-    val mike = Person("Mike", 10, Job.NO_JOB)
+    Person("Jane", 26, Job.DUNGEON)
+    Person("Mike", 10, Job.NO_JOB)
     val amy = Person("Amy", 10, Job.STUDENT)
     amy.addFriend(david)
 
@@ -60,10 +61,14 @@ fun main() {
             transform = { it.name })
     )
 
+    PersonContainer.persons.map {
+        PersonProcessor(it).process()
+    }
+
     val idx = readln("Input idx: ").toInt()
     try {
         if (idx >= people.size) {
-            throw IllegalArgumentException("$idx is larger than max person idx")
+            fail("$idx is larger than max person idx")
         }
         printPersonInfo(people[idx])
     } catch (e: Exception) {

@@ -38,6 +38,12 @@ data class Person(val name: String, val age: Int, var job: Job = Job.NO_JOB) {
     }
 }
 
+class PersonProcessor(val person: Person) : Processor<Unit> {
+    override fun process() {
+        println("${person.name} is processed.")
+    }
+}
+
 fun printPersonInfo(person: Person): Unit {
     @Language("JSON")
     val result = """
