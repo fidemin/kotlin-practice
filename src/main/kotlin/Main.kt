@@ -87,6 +87,9 @@ fun main() {
 
     Person.destroyWorld()
 
+    val sum: (Int, Int) -> Int? = { x, y -> x + y }
+    val printAction = { println(42) }
+
 }
 
 fun postponeComputation(delay: Int, computation: Runnable) {

@@ -1,13 +1,22 @@
 package com.yunhongmin.objects
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.intellij.lang.annotations.Language
+
+val mapper = jacksonObjectMapper()
 
 object PersonContainer {
     val persons = mutableListOf<Person>()
     fun add(person: Person) = persons.add(person)
 }
 
-data class Person(val name: String, val age: Int, var job: Job = Job.NO_JOB) {
+data class Person(
+    @get:JvmName("name")
+    val name: String,
+    val age: Int,
+    var job: Job = Job.NO_JOB
+) {
     val friends = mutableSetOf<Person>()
 
     init {
@@ -29,6 +38,7 @@ data class Person(val name: String, val age: Int, var job: Job = Job.NO_JOB) {
         override fun compare(o1: Person, o2: Person) = o1.name.compareTo(o2.name)
     }
 
+    @JvmName("addFriendOne")
     fun addFriend(p: Person) {
         if (friends.contains(p)) {
             return
@@ -55,4 +65,6 @@ fun printPersonInfo(person: Person): Unit {
         }
     """.trimIndent()
     println(result)
+    val jsonString = mapper.writeValueAsString(person)
+    val deserPerson = mapper.readValue<Person>(jsonString)
 }
