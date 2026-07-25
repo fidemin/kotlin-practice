@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.3.0"
+    kotlin("plugin.serialization") version "2.3.20"
 }
 
 group = "com.yunhongmin"
@@ -10,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.21.5")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation(kotlin("test"))
 }
 

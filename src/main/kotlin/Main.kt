@@ -2,7 +2,6 @@ package com.yunhongmin
 
 import com.yunhongmin.objects.*
 import com.yunhongmin.utils.fail
-import java.lang.IO.readln
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -65,7 +64,7 @@ fun main() {
         PersonProcessor(it).process()
     }
 
-    val idx = readln("Input idx: ").toInt()
+    val idx = 1
     try {
         if (idx >= people.size) {
             fail("$idx is larger than max person idx")
@@ -89,6 +88,7 @@ fun main() {
 
     val sum: (Int, Int) -> Int? = { x, y -> x + y }
     val printAction = { println(42) }
+    practiceReflection()
 
 }
 

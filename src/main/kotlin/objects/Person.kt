@@ -1,10 +1,7 @@
 package com.yunhongmin.objects
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import kia.jkid.JsonExclude
 import org.intellij.lang.annotations.Language
-
-val mapper = jacksonObjectMapper()
 
 object PersonContainer {
     val persons = mutableListOf<Person>()
@@ -17,6 +14,7 @@ data class Person(
     val age: Int,
     var job: Job = Job.NO_JOB
 ) {
+    @JsonExclude
     val friends = mutableSetOf<Person>()
 
     init {
@@ -65,6 +63,4 @@ fun printPersonInfo(person: Person): Unit {
         }
     """.trimIndent()
     println(result)
-    val jsonString = mapper.writeValueAsString(person)
-    val deserPerson = mapper.readValue<Person>(jsonString)
 }
