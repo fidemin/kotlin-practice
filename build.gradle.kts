@@ -13,6 +13,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation(kotlin("test"))
+    testImplementation("dev.zacsweers.kctfork:core:0.12.1")
 }
 
 kotlin {

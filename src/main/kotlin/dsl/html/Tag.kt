@@ -1,14 +1,17 @@
 package com.yunhongmin.dsl.html
 
+@DslMarker
+annotation class HtmlDslMarker
+
 interface Node
 
 class TextNode(val text: String) : Node {
     override fun toString(): String = text
 }
 
+@HtmlDslMarker
 open class Tag(val name: String) : Node {
     private val children = mutableListOf<Node>()
-
 
     protected fun <T : Node> doInit(child: T, init: T.() -> Unit) {
         child.init()
