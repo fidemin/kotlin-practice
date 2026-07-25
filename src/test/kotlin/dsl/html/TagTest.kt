@@ -14,9 +14,21 @@ class TagTest {
 
     @Test
     fun `render html with body`() {
-        val html = html {
+        val node = html {
             body {}
         }
-        assertEquals("<html><body></body></html>", html.toString())
+        assertEquals("<html><body></body></html>", node.toString())
+    }
+
+    @Test
+    fun `render html with body string`() {
+        val node = html {
+            body {
+                +"Hello"
+                +" World"
+            }
+        }
+
+        assertEquals("<html><body>Hello World</body></html>", node.toString())
     }
 }

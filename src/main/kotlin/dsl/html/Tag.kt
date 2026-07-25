@@ -1,12 +1,22 @@
 package com.yunhongmin.dsl.html
 
-open class Tag(val name: String) {
-    private val children = mutableListOf<Tag>()
+interface Node
 
-    protected fun <T : Tag> doInit(child: T, init: T.() -> Unit): T {
+class TextNode(val text: String) : Node {
+    override fun toString(): String = text
+}
+
+open class Tag(val name: String) : Node {
+    private val children = mutableListOf<Node>()
+
+
+    protected fun <T : Node> doInit(child: T, init: T.() -> Unit) {
         child.init()
         children.add(child)
-        return child
+    }
+
+    operator fun String.unaryPlus() {
+        children.add(TextNode(this))
     }
 
     override fun toString(): String = "<$name>${children.joinToString("")}</$name>"
