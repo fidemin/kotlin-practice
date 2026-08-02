@@ -31,4 +31,8 @@ class Html : Tag(name = "html") {
     fun body(init: Body.() -> Unit) = doInit(Body(), init)
 }
 
-class Body : Tag(name = "body")
+class Body : Tag(name = "body") {
+    fun table(init: Tag.() -> Unit) = doInit(Table(), init)
+}
+
+class Table : Tag(name = "table")
